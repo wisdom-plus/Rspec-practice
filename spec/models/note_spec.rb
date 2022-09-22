@@ -1,20 +1,22 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Note, type: :model do
   before do
     @user = User.create(
-      first_name: "Joe",
-      last_name: "Tester",
-      email: "test@example.com",
-      password: "dottle-nouveau-pavilion-tights-furze"
+      first_name: 'Joe',
+      last_name: 'Tester',
+      email: 'test@example.com',
+      password: 'dottle-nouveau-pavilion-tights-furze'
     )
 
     @project = @user.projects.create(
-      name: "Test Project",
+      name: 'Test Project'
     )
   end
 
-  it "is valid with a user, project, and message" do
+  it 'is valid with a user, project, and message' do
     note = Note.new(
       message: 'This is a sample note.',
       user: @user,
@@ -31,33 +33,33 @@ RSpec.describe Note, type: :model do
     expect(note.errors[:message]).to include("can't be blank")
   end
 
-  describe "search message for a term" do
+  describe 'search message for a term' do
     before do
-      @note1 =@project.notes.create(
-        message: "This is the first note.",
+      @note1 = @project.notes.create(
+        message: 'This is the first note.',
         user: @user
       )
 
       @note2 = @project.notes.create(
-        message: "This is the second note.",
+        message: 'This is the second note.',
         user: @user
       )
 
       @note3 = @project.notes.create(
-        message: "First, preheat the oven.",
+        message: 'First, preheat the oven.',
         user: @user
       )
     end
-    context "when a match is found" do
-      it "returns notes that match the search term" do
-        expect(Note.search("first")).to include(@note1,@note3)
-        expect(Note.search("first")).to_not include(@note2)
+    context 'when a match is found' do
+      it 'returns notes that match the search term' do
+        expect(Note.search('first')).to include(@note1, @note3)
+        expect(Note.search('first')).to_not include(@note2)
       end
     end
 
-    context "when no match is found" do
-      it "does not return notes that do not match the search term" do
-        expect(Note.search("message")).to be_empty
+    context 'when no match is found' do
+      it 'does not return notes that do not match the search term' do
+        expect(Note.search('message')).to be_empty
       end
     end
   end

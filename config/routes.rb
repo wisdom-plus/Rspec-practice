@@ -1,5 +1,6 @@
-Rails.application.routes.draw do
+# frozen_string_literal: true
 
+Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions' }
 
   authenticated :user do
@@ -16,8 +17,8 @@ Rails.application.routes.draw do
   end
 
   namespace :api do
-    resources :projects#, only: [:index, :show, :create]
+    resources :projects # , only: [:index, :show, :create]
   end
 
-  root "home#index"
+  root 'home#index'
 end

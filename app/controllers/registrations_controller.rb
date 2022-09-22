@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RegistrationsController < Devise::RegistrationsController
   # TODO: Monkey patch for Turbo
   # https://github.com/heartcombo/devise/pull/5410
@@ -6,7 +8,9 @@ class RegistrationsController < Devise::RegistrationsController
     Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
     set_flash_message! :notice, :destroyed
     yield resource if block_given?
-    respond_with_navigational(resource){ redirect_to after_sign_out_path_for(resource_name), status: :see_other, notice: find_message(:destroyed) }
+    respond_with_navigational(resource) do
+      redirect_to after_sign_out_path_for(resource_name), status: :see_other, notice: find_message(:destroyed)
+    end
   end
 
   private

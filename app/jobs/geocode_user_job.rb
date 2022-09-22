@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class GeocodeUserJob < ApplicationJob
   queue_as :default
 

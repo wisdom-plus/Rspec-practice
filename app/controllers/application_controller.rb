@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::Base
   before_action :authenticate_user!
 
@@ -8,8 +10,6 @@ class ApplicationController < ActionController::Base
   end
 
   def project_owner?
-    unless @project.owner == current_user
-      redirect_to root_path, alert: "You don't have access to that project."
-    end
+    redirect_to root_path, alert: "You don't have access to that project." unless @project.owner == current_user
   end
 end
