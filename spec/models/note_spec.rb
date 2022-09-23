@@ -10,18 +10,12 @@ RSpec.describe Note, type: :model do
   end
 
   it 'is valid with a user, project, and message' do
-    note = described_class.new(
-      message: 'This is a sample note.',
-      user: @user,
-      project: @project
-    )
+    note = build(:note)
     expect(note).to be_valid
   end
 
   it 'is invalid without a message' do
-    note = described_class.new(
-      message: nil
-    )
+    note = build(:note, message: nil)
     note.valid?
     expect(note.errors[:message]).to include("can't be blank")
   end
