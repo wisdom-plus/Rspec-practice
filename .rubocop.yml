@@ -1,6 +1,20 @@
+require:
+  - rubocop-rails
+  - rubocop-rspec
+
 AllCops:
   NewCops: enable
   SuggestExtensions: false
+  Exclude:
+    - "vendor/**/*"
+    - "bin/**/*"
+    - "db/**/*"
+    - "tmp/**/*"
+    - "node_modules/**/*"
+    - "lib/tasks/auto_annotate_models.rake"
 
 Style/Documentation:
   Enabled: false
+
+Rails:
+  Enabled: true
