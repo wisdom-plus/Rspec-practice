@@ -4,16 +4,9 @@ require 'rails_helper'
 
 RSpec.describe Note, type: :model do
   before do
-    @user = User.create(
-      first_name: 'Joe',
-      last_name: 'Tester',
-      email: 'test@example.com',
-      password: 'dottle-nouveau-pavilion-tights-furze'
-    )
+    @user = FactoryBot.create(:user)
 
-    @project = @user.projects.create(
-      name: 'Test Project'
-    )
+    @project = FactoryBot.create(:project, owner: @user)
   end
 
   it 'is valid with a user, project, and message' do
@@ -35,20 +28,9 @@ RSpec.describe Note, type: :model do
 
   describe 'search message for a term' do
     before do
-      @note1 = @project.notes.create(
-        message: 'This is the first note.',
-        user: @user
-      )
-
-      @note2 = @project.notes.create(
-        message: 'This is the second note.',
-        user: @user
-      )
-
-      @note3 = @project.notes.create(
-        message: 'First, preheat the oven.',
-        user: @user
-      )
+      @note1 = FactoryBot.create(:note, project: @project,message: 'This is the first note.')
+      @note2 = FactoryBot.create(:note, project: @project,message: 'This is the second note.')
+      @note3 = FactoryBot.create(:note, project: @project,message: 'First, preheat the oven.')
     end
     context 'when a match is found' do
       it 'returns notes that match the search term' do
