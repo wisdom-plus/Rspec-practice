@@ -12,14 +12,14 @@ RSpec.describe "Projects", type: :system do
     click_button 'Log in'
 
     expect {
-      click_link 'New_Project'
+      click_link 'New Project'
       fill_in "Name", with: "Test Project"
       fill_in "Description", with: "Trying out Capybara"
       click_button "Create Project"
 
       expect(page).to have_content "Project was successfully created"
       expect(page).to have_content "Test Project"
-      expect(page).to have_content "Owner: #{user.email}"
+      expect(page).to have_content "Owner: #{user.name}"
     }.to change(user.projects, :count).by(1)
   end
 end
