@@ -4,5 +4,11 @@ FactoryBot.define do
     last_name {"Sumner"}
     sequence(:email) {|n| "test#{n}@example.com"}
     password { "dottle-nouveau-pavilion-tights-furze" }
+
+
+    trait :other_user do
+      first_name {"Jane"}
+      last_name {"Tester"}
+    end
   end
 end
