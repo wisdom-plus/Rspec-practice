@@ -4,45 +4,17 @@ require 'rails_helper'
 
 RSpec.describe Project, type: :model do
   it 'does not allow duplicate project names per user' do
-    user = User.create(
-      first_name: 'Joe',
-      last_name: 'Tester',
-      email: 'test@example.com',
-      password: 'dottle-nouveau-pavilion-tights-furze'
-    )
-
-    user.projects.create(
-      name: 'Test Project'
-    )
-    new_project = user.projects.build(
-      name: 'Test Project'
-    )
+    user = FactoryBot.create(:user)
+    FactoryBot.create(:project, name: 'Test Project', owner: user)
+    new_project= FactoryBot.build(:project, name: 'Test Project',owner: user )
     new_project.valid?
     expect(new_project.errors[:name]).to include('has already been taken')
   end
 
   it 'allows two users to share a project name' do
-    user = User.create(
-      first_name: 'Joe',
-      last_name: 'Tester',
-      email: 'test@example.com',
-      password: 'dottle-nouveau-pavilion-tights-furze'
-    )
+    FactoryBot.create(:project, name: 'Test Project')
 
-    user.projects.create(
-      name: 'Test Project'
-    )
-
-    other_user = User.create(
-      first_name: 'Jane',
-      last_name: 'Tester',
-      email: 'test1@example.com',
-      password: 'dottle-nouveau-pavilion-tights-furze'
-    )
-
-    other_project = other_user.projects.build(
-      name: 'Test Project'
-    )
+    other_project = FactoryBot.build(:project, name: 'Test Project')
 
     expect(other_project).to be_valid
   end
@@ -62,6 +34,10 @@ RSpec.describe Project, type: :model do
       project = FactoryBot.create(:project, :due_tomorrow)
       expect(project).to_not be_late
     end
+  end
 
+  it 'canhave many notes' do
+    project = FactoryBot.create(:project, :with_notes)
+    expect(project.notes.length).to eq 5
   end
 end
