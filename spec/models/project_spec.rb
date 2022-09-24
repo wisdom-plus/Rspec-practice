@@ -3,13 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe Project, type: :model do
-  it 'does not allow duplicate project names per user' do
-    user = create(:user)
-    create(:project, name: 'Test Project', owner: user)
-    new_project = build(:project, name: 'Test Project', owner: user)
-    new_project.valid?
-    expect(new_project.errors[:name]).to include('has already been taken')
-  end
+
+  it { is_expected.to validate_uniqueness_of(:name).scoped_to(:user_id)}
 
   it 'allows two users to share a project name' do
     create(:project, name: 'Test Project')
