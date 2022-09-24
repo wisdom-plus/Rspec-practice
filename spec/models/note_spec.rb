@@ -3,11 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe Note, type: :model do
-  before do
-    @user = create(:user)
-
-    @project = create(:project, owner: @user)
-  end
+  let(:user) { create(:user) }
+  let(:project) { create(:project)}
 
   it 'is valid with a user, project, and message' do
     note = build(:note)
@@ -21,22 +18,22 @@ RSpec.describe Note, type: :model do
   end
 
   describe 'search message for a term' do
-    before do
-      @note1 = create(:note, project: @project, message: 'This is the first note.')
-      @note2 = create(:note, project: @project, message: 'This is the second note.')
-      @note3 = create(:note, project: @project, message: 'First, preheat the oven.')
-    end
+    let!(:note1){create(:note, project: project, message: 'This is the first note.')}
+    let!(:note2){create(:note, project: project, message: 'This is the second note.')}
+    let!(:note3){create(:note, project: project, message: 'First, preheat the oven.')}
+
 
     context 'when a match is found' do
       it 'returns notes that match the search term' do
-        expect(described_class.search('first')).to include(@note1, @note3)
-        expect(described_class.search('first')).not_to include(@note2)
+        expect(described_class.search('first')).to include(note1, note3)
+        expect(described_class.search('first')).not_to include(note2)
       end
     end
 
     context 'when no match is found' do
       it 'does not return notes that do not match the search term' do
         expect(described_class.search('message')).to be_empty
+        expect(Note.count).to eq 3
       end
     end
   end
