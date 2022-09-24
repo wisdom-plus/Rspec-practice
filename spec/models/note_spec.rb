@@ -24,6 +24,11 @@ RSpec.describe Note, type: :model do
     expect(note.user_name).to eq "Fake User"
   end
 
+  it 'has one attachment' do
+    note = create(:note, :with_attachment)
+    expect(note.attachment).to be_attached
+  end
+
   describe 'search message for a term' do
     let!(:note1){create(:note, project: project, message: 'This is the first note.')}
     let!(:note2){create(:note, project: project, message: 'This is the second note.')}

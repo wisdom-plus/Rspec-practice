@@ -50,7 +50,7 @@ RSpec.describe "Tasks", type: :system do
     expect(task.reload).to be_completed
   end
 
-  def expecct_incomplete_task(name)
+  def expect_incomplete_task(name)
     expect(page).to_not have_css "label.completed", text: name
     expect(task.reload).to_not be_completed
   end
