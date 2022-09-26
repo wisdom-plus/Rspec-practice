@@ -24,6 +24,6 @@ RSpec.describe Task, type: :model do
   it 'sends a welcom email on account creation' do
     allow(UserMailer).to receive_message_chain(:welcome_email, :deliver_later)
     user = create(:user)
-    expect(UserMailer).to have_received(:welcom_email).with(user)
+    expect(UserMailer).to have_received(:welcome_email).with(user)
   end
 end
