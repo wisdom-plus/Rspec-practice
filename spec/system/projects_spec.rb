@@ -20,4 +20,21 @@ RSpec.describe "Projects", type: :system do
       expect(page).to have_content "Owner: #{user.name}"
     end
   end
+
+  scenario "user completes a project",:focus do
+    user = create(:user)
+    project = create(:project, owner: user)
+
+    sign_in(user)
+    visit project_path(project)
+
+    expect(page).to_not have_content "completed"
+
+    click_button "Complete"
+
+    expect(project.reload.completed?).to be true
+    expect(page).to have_content "Congratulations, this project is complete!"
+    expect(page).to have_content "Completed"
+    expect(page).to have_content "Complete"
+  end
 end
